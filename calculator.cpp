@@ -300,11 +300,6 @@ class Conversion : public Infix2Postfix {
 						poppedToken = operatorStack.top();
 						operatorStack.pop();
 					}
-
-					if (poppedToken == NULL) {
-						cout << "! 오른쪽 괄호가 없습니다." << endl;
-						return false;
-					}
 				}
 				else {
 					int inComing = this->inComingPrecedence(currentToken);
