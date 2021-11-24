@@ -5,7 +5,7 @@
 #include <cmath>
 using namespace std;
 
-//¿¬»ê
+//ì—°ì‚°
 class Calculator {
 public:
 	stack<double> valueStack;
@@ -14,7 +14,7 @@ public:
 	virtual bool executeOperator(const char& anOperator) = 0;
 };
 
-//¿¬»ê ¼¼ºÎ ±¸Çö
+//ì—°ì‚° ì„¸ë¶€ êµ¬í˜„
 class PostfixCalculator : public Calculator {
 private:
 	stack<char> tempStack;
@@ -22,7 +22,7 @@ private:
 public:
 	double evaluate(const string& postfixExpression) {
 		if (postfixExpression.size() == 0) {
-			cout << "! ¼ö½ÄÀÌ ¾ø½À´Ï´Ù." << endl;
+			cout << "! ìˆ˜ì‹ì´ ì—†ìŠµë‹ˆë‹¤." << endl;
 			throw "error";
 		}
 
@@ -48,10 +48,10 @@ public:
 				continue;
 			}
 
-			if (isdigit(token)) {//¼ıÀÚÀÎ °æ¿ì
+			if (isdigit(token)) {//ìˆ«ìì¸ ê²½ìš°
 				this->tempStack.push(token);
 			}
-			else {//¿¬»êÀÚÀÇ °æ¿ì
+			else {//ì—°ì‚°ìì˜ ê²½ìš°
 				bool check = this->executeOperator(token);
 				if (!check) {
 					throw "error";
@@ -89,7 +89,7 @@ public:
 			break;
 		case '/':
 			if (operand1 == 0) {
-				cout << "! 0À¸·Î ³ª´­ ¼ö ¾ø½À´Ï´Ù." << endl;
+				cout << "! 0ìœ¼ë¡œ ë‚˜ëˆŒ ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
 				return false;
 			}
 			else {
@@ -112,15 +112,15 @@ public:
 	}
 };
 
-//º¯È¯
-class Infix2Postfix {//ÈÄÀ§¿¬»êÀ¸·Î º¯È¯
+//ë³€í™˜
+class Infix2Postfix {//í›„ìœ„ì—°ì‚°ìœ¼ë¡œ ë³€í™˜
 public:
 	stack<char> operatorStack;
 	string infixExpression;
 	string postfixExpression;
 	PostfixCalculator* postfixCalculator = new PostfixCalculator();
 
-	//infixÇ¥Çö¿¡¼­ ½ºÅÃ¿¡ ³ÖÀ» ¶§ ¿¬»êÀÚ ¿ì¼±¼øÀ§ °áÁ¤
+	//infixí‘œí˜„ì—ì„œ ìŠ¤íƒì— ë„£ì„ ë•Œ ì—°ì‚°ì ìš°ì„ ìˆœìœ„ ê²°ì •
 	int inComingPrecedence(const char& aToken) {
 		switch (aToken) {
 		case '(':
@@ -140,7 +140,7 @@ public:
 		}
 	}
 
-	//postfixÇ¥Çö¿¡¼­ ½ºÅÃ¿¡¼­ ²¨³¾¶§ ¿¬»êÀÚ ¿ì¼±¼øÀ§ °áÁ¤
+	//postfixí‘œí˜„ì—ì„œ ìŠ¤íƒì—ì„œ êº¼ë‚¼ë•Œ ì—°ì‚°ì ìš°ì„ ìˆœìœ„ ê²°ì •
 	int inStackPrecedence(const char& aToken) {
 		switch (aToken) {
 		case '(':
@@ -165,27 +165,29 @@ public:
 	double evaluates(const string& infixExpression) {
 		this->infixExpression = infixExpression;
 		if (infixExpression.size() == 0) {
-			cout << "! ¼ö½ÄÀÌ ¾ø½À´Ï´Ù." << endl;
+			cout << "! ìˆ˜ì‹ì´ ì—†ìŠµë‹ˆë‹¤." << endl;
 			throw "error";
 		}
 
 		bool infixChech = this->infixToPostfix();
 		if (infixChech) {
 			return this->postfixCalculator->evaluate(this->postfixExpression);
+		}else {
+			throw "error";
 		}
 	}
 };
 
-//º¯È¯ ¼¼ºÎ
+//ë³€í™˜ ì„¸ë¶€
 class Conversion : public Infix2Postfix {
-	//2Áø¼ö¸¦ 10Áø¼ö·Î ¹Ù²Ù±â
+	//2ì§„ìˆ˜ë¥¼ 10ì§„ìˆ˜ë¡œ ë°”ê¾¸ê¸°
 	string binaryToDecimal(const string& binaryV) {
 		const char* binary = binaryV.c_str();
 		int resultInt = 0;
 
 		for (int i = 0; i < binaryV.size(); i++) {
 			if (binary[i] > '1') {
-				cout << "! Àß¸øµÈ 2Áø¼ö ÀÔ´Ï´Ù." << endl;
+				cout << "! ì˜ëª»ëœ 2ì§„ìˆ˜ ì…ë‹ˆë‹¤." << endl;
 				throw "error";
 			}
 			else {
@@ -201,7 +203,7 @@ class Conversion : public Infix2Postfix {
 		return result;
 	}
 
-	//16Áø¼ö¸¦ 10Áø¼ö·Î ¹Ù²Ù±â
+	//16ì§„ìˆ˜ë¥¼ 10ì§„ìˆ˜ë¡œ ë°”ê¾¸ê¸°
 	string hexToDecimal(const string& hexV) {
 		const char* hex = hexV.c_str();
 		int resultInt = 0;
@@ -217,7 +219,7 @@ class Conversion : public Infix2Postfix {
 				resultInt += n * pow(16, k);
 			}
 			else {
-				cout << "! Àß¸øµÈ 16Áø¼ö ÀÔ´Ï´Ù." << endl;
+				cout << "! ì˜ëª»ëœ 16ì§„ìˆ˜ ì…ë‹ˆë‹¤." << endl;
 				throw "error";
 			}
 		}
@@ -236,9 +238,9 @@ class Conversion : public Infix2Postfix {
 		int p = 0;
 		for (int i = 0; i < infixExpression.size(); i++) {
 			currentToken = expression[i];
-			if (isdigit(currentToken)) {//¼ıÀÚÀÏ °æ¿ì
+			if (isdigit(currentToken)) {//ìˆ«ìì¼ ê²½ìš°
 				if (currentToken == '0') {
-					//2Áø¼ö
+					//2ì§„ìˆ˜
 					if (i != infixExpression.size() - 1 && expression[i + 1] == 'b') {
 						i = i + 2;
 						vector<char> binaryVactor(0);
@@ -258,7 +260,7 @@ class Conversion : public Infix2Postfix {
 						i--;
 
 					}
-					//16Áø¼ö
+					//16ì§„ìˆ˜
 					else if (i != infixExpression.size() - 1 && expression[i + 1] == 'x') {
 						i = i + 2;
 						vector<char> hexVactor(0);
@@ -278,19 +280,19 @@ class Conversion : public Infix2Postfix {
 						i--;
 
 					}
-					else {//0 ÀÏ¹İ ¼ıÀÚ
+					else {//0 ì¼ë°˜ ìˆ«ì
 						postfixVector[p++] = currentToken;
 					}
 				}
-				else {//ÀÏ¹İ ¼ıÀÚ
+				else {//ì¼ë°˜ ìˆ«ì
 					postfixVector[p++] = currentToken;
 				}
 			}
-			else {//¿¬»êÀÚÀÇ °æ¿ì
+			else {//ì—°ì‚°ìì˜ ê²½ìš°
 				postfixVector.resize(++sizeV);
 				postfixVector[p++] = ' ';
 
-				if (currentToken == ')') {//°ıÈ£ ÀÖÀ»¶§
+				if (currentToken == ')') {//ê´„í˜¸ ìˆì„ë•Œ
 					poppedToken = operatorStack.top();
 					operatorStack.pop();
 					while (!operatorStack.empty() && poppedToken != '(') {
@@ -300,14 +302,14 @@ class Conversion : public Infix2Postfix {
 					}
 
 					if (poppedToken == NULL) {
-						cout << "! ¿À¸¥ÂÊ °ıÈ£°¡ ¾ø½À´Ï´Ù." << endl;
+						cout << "! ì˜¤ë¥¸ìª½ ê´„í˜¸ê°€ ì—†ìŠµë‹ˆë‹¤." << endl;
 						return false;
 					}
 				}
 				else {
 					int inComing = this->inComingPrecedence(currentToken);
 					if (inComing < 0) {
-						cout << "! ¾Ë ¼ö ¾ø´Â ¿¬»êÀÚÀÔ´Ï´Ù." << endl;
+						cout << "! ì•Œ ìˆ˜ ì—†ëŠ” ì—°ì‚°ìì…ë‹ˆë‹¤." << endl;
 						return false;
 					}
 
@@ -329,7 +331,7 @@ class Conversion : public Infix2Postfix {
 			poppedToken = operatorStack.top();
 			operatorStack.pop();
 			if (poppedToken == '(') {
-				cout << "! ¿À¸¥ÂÊ °ıÈ£°¡ ¾ø½À´Ï´Ù." << endl;
+				cout << "! ì˜¤ë¥¸ìª½ ê´„í˜¸ê°€ ì—†ìŠµë‹ˆë‹¤." << endl;
 				return false;
 			}
 			postfixVector.resize(++sizeV);
@@ -344,30 +346,30 @@ class Conversion : public Infix2Postfix {
 };
 
 
-//½ÇÇà
+//ì‹¤í–‰
 int main() {
 
-	cout << "°è»ê±â¸¦ ½ÇÇàÇÕ´Ï´Ù.\n" << endl;
+	cout << "ê³„ì‚°ê¸°ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.\n" << endl;
 	string infix;
-	cout << ">>16Áø¼öÀÇ °æ¿ì, ¼Ò¹®ÀÚ¸¸ »ç¿ëÇÕ´Ï´Ù." << endl;
-	cout << ">>¼ö½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä(Á¾·áÇÏ·Á¸é q¸¦ ÀÔ·ÂÇÏ¼¼¿ä):" << endl;
+	cout << ">>16ì§„ìˆ˜ì˜ ê²½ìš°, ì†Œë¬¸ìë§Œ ì‚¬ìš©í•©ë‹ˆë‹¤." << endl;
+	cout << ">>ìˆ˜ì‹ì„ ì…ë ¥í•˜ì„¸ìš”(ì¢…ë£Œí•˜ë ¤ë©´ që¥¼ ì…ë ¥í•˜ì„¸ìš”):" << endl;
 	getline(cin, infix);
 
 	Infix2Postfix* calculator = new Conversion();
 	while (infix != "q") {
 		try {
 			double result = calculator->evaluates(infix);
-			cout << "°è»ê °á°ú:" << result << endl;
+			cout << "ê³„ì‚° ê²°ê³¼:" << result << endl;
 		}
 		catch (...) {
-			cout << "! °è»ê Áß ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.\n" << endl;
+			cout << "! ê³„ì‚° ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.\n" << endl;
 		}
 
-		cout << "\n>>¼ö½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä(Á¾·áÇÏ·Á¸é q¸¦ ÀÔ·ÂÇÏ¼¼¿ä):" << endl;
+		cout << "\n>>ìˆ˜ì‹ì„ ì…ë ¥í•˜ì„¸ìš”(ì¢…ë£Œí•˜ë ¤ë©´ që¥¼ ì…ë ¥í•˜ì„¸ìš”):" << endl;
 		getline(cin, infix);
 	}
 
 
-	cout << "\n°è»ê±â¸¦ Á¾·áÇÕ´Ï´Ù." << endl;
+	cout << "\nê³„ì‚°ê¸°ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤." << endl;
 	return 0;
 }
